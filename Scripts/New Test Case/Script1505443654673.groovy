@@ -21,7 +21,7 @@ import internal.GlobalVariable as GlobalVariable
 import org.openqa.selenium.Keys as Keys
 
 for (def row = 1; row <= findTestData('New Test Data for Testcase').getRowNumbers(); row++) {
-    WebUI.openBrowser('http://executeautomation.com/demosite/Login.html')
+
 
 	Login(findTestData('New Test Data for Testcase').getValue('UserName', row),  findTestData('New Test Data for Testcase').getValue('Password', row))
 
@@ -65,7 +65,6 @@ for (def row = 1; row <= findTestData('New Test Data for Testcase').getRowNumber
 
     WebUI.click(findTestObject('Page_Execute Automation (1)/input_generate'))
 
-    WebUI.closeBrowser()
 }
 
 
