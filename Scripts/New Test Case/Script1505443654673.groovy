@@ -11,8 +11,10 @@ import com.kms.katalon.core.testcase.TestCase as TestCase
 import com.kms.katalon.core.testcase.TestCaseFactory as TestCaseFactory
 import com.kms.katalon.core.testdata.TestData as TestData
 import com.kms.katalon.core.testdata.TestDataFactory as TestDataFactory
+import com.kms.katalon.core.testobject.ConditionType
 import com.kms.katalon.core.testobject.ObjectRepository as ObjectRepository
 import com.kms.katalon.core.testobject.TestObject as TestObject
+import com.kms.katalon.core.testobject.TestObjectProperty
 import com.kms.katalon.core.webservice.keyword.WSBuiltInKeywords as WSBuiltInKeywords
 import com.kms.katalon.core.webservice.keyword.WSBuiltInKeywords as WS
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUiBuiltInKeywords
@@ -69,7 +71,31 @@ for (def row = 1; row <= findTestData('New Test Data for Testcase').getRowNumber
 
 
 def Login(def userName, def password){
-	WebUI.setText(findTestObject('Page_Execute Automation/input_UserName'),userName)
+	
+	// Way 1
+	//WebUI.setText(findTestObject('Page_Execute Automation/input_UserName',[("xpath"): "id('userName')/p[1]/input[1]"]),userName)
+
+	//Way 2
+//	myTestObject = new TestObject("customObject");
+//	myTestObject.addProperty("xpath", ConditionType.EQUALS, "id('userName')/p[1]/input[1]");
+//	WebUI.setText(myTestObject, "CustomUserName");
+	
+	//Way 3
+	myTestObject = new TestObject("customObject");
+	
+	List<TestObjectProperty> properties = new ArrayList<TestObjectProperty>();
+	properties.add(new TestObjectProperty("xpath", ConditionType.EQUALS, "id('userName')/p[1]/input[1]"));
+	properties.add(new TestObjectProperty("name", ConditionType.EQUALS, "UserName"));
+	
+	//Set the object
+	myTestObject.setProperties(properties);
+	WebUI.setText(myTestObject, "FromPropertiesObject");
+	
+	//Get property of an UI Object
+	activeProperties = myTestObject.getProperties();
+	for (prop in activeProperties) {
+		prop.name;
+	}
 
 	WebUI.setText(findTestObject('Page_Execute Automation/input_Password'),password)
 }
